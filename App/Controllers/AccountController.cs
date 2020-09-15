@@ -109,11 +109,11 @@ namespace App.Controllers
         [Route("acceptinvite")]
         public async Task<IActionResult> PostAcceptInvitation([FromBody] InvitationResouce invitation)
         {
-            var friend = await _userManager.FindByEmailAsync(invitation.Email);
+            var user = await _userManager.FindByEmailAsync(invitation.Email);
 
-            if (friend != null)
+            if (user != null)
             {
-                var friendExist = await _context.UserFriends.Where(x => x.UserId == invitation.UserId && x.FriendId == friend.Id).SingleOrDefaultAsync();
+                var friendExist = await _context.UserFriends.Where(x => x.UserId == user.Id  && x.FriendId == invitation.UserId).SingleOrDefaultAsync();
                 if (friendExist !=null)
                 {
                     if (friendExist?.InviteStatus == false)
@@ -122,8 +122,8 @@ namespace App.Controllers
                         //  var result = await _context.UserFriends.Update(friendExist);
                         UserFriends userFriend = new UserFriends()
                         {
-                            UserId = friend.Id ,
-                            FriendId = invitation.UserId,
+                            UserId = invitation.UserId ,
+                            FriendId = user.Id,
                             InviteStatus = true,
 
 
