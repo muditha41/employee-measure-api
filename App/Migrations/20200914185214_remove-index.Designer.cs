@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    [Migration("20200810085530_UserFriends_Table")]
-    partial class UserFriends_Table
+    [Migration("20200914185214_remove-index")]
+    partial class removeindex
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,6 +84,38 @@ namespace App.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("App.Authentication.UserFriends", b =>
+                {
+                    b.Property<int>("UserFriendId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FriendId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("InviteStatus")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserFriendId");
+
+                    b.HasIndex("FriendId")
+                        .IsUnique()
+                        .HasFilter("[FriendId] IS NOT NULL");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
+
+                    b.ToTable("UserFriends");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -215,6 +247,19 @@ namespace App.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("App.Authentication.UserFriends", b =>
+                {
+                    b.HasOne("App.Authentication.ApplicationUser", "Friend")
+                        .WithOne("Friend")
+                        .HasForeignKey("App.Authentication.UserFriends", "FriendId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("App.Authentication.ApplicationUser", "User")
+                        .WithOne("UserFriend")
+                        .HasForeignKey("App.Authentication.UserFriends", "UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -10,7 +10,7 @@ namespace App.DB
     public class ApplicationDbContext : DbContext
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options){ }
-        public DbSet<UserFriends> UserFriends { get; set; }
+      //  public DbSet<UserFriends> UserFriends { get; set; }
     
     }
 }

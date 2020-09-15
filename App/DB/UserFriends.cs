@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,16 +9,21 @@ namespace App.Authentication
 {
     public class UserFriends
     {
+
+
         [Key]
-        public string UserFirendId { get; set; }        
-        [Required]
+        public int UserFriendId { get; set; }
+       
         public string UserId { get; set; }
-        [Required]
+        public virtual ApplicationUser User {get;set;}
+     
         public string FriendId { get; set; }
-        [Required]
-        public string Status { get; set; }
-        [Required]
-        public DateTime LastUpdated { get; set; }
-        public byte[] ProfileImage { get; set; }
+        public virtual ApplicationUser Friend { get; set; }
+
+        public Boolean InviteStatus { get; set; }
+         
+       
+         
+       
     }
 }
