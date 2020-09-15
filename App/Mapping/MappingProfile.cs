@@ -24,6 +24,13 @@ namespace App.Mapping
             CreateMap<Task<UserFriends>, Task<UserFriendResource>>();
 
 
+            CreateMap<UserFriendResource, PendingUserFriends>()
+               .ForMember(s => s.Friend, opt => opt.MapFrom(c => c.User))
+               .ForMember(s => s.FriendId, opt => opt.MapFrom(c => c.UserId));
+              
+               
+
+
         }
     }
 }

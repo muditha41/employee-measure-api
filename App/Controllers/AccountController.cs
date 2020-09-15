@@ -176,12 +176,43 @@ namespace App.Controllers
                 var userFriendsResource = _mapper.Map<List<UserFriendResource>>(userFriends);
                 if (userFriendsResource.Count > 0)
                 {
+                    var pendingUserFriends = _mapper.Map<List<PendingUserFriends>>(userFriendsResource);
+                    return Ok(pendingUserFriends);
+
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User doesn't have pending friend requests!" });
+                }
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User doesn't exists!" });
+            }
+            //return Unauthorized();
+        }
+
+
+        [HttpGet]
+        [Route("{userId}/pendingsentrequests")]
+        public async Task<IActionResult> GetPendingSentRequest(string userId)
+        {
+            //  var contentType = this.Request;
+
+            var userExists = await _userManager.FindByIdAsync(userId);
+            if (userExists != null)
+            {
+                var userFriends = await _context.UserFriends.Include(s => s.User).Include(f => f.Friend).Where(x => x.UserId == userId && x.InviteStatus == false).ToListAsync();
+                var userFriendsResource = _mapper.Map<List<UserFriendResource>>(userFriends);
+                if (userFriendsResource.Count > 0)
+                {
+                   // var pendingUserFriends = _mapper.Map<List<PendingUserFriends>>(userFriendsResource);
                     return Ok(userFriendsResource);
 
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User doesn't have friends!" });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User doesn't have pending sent requests!" });
                 }
             }
             else

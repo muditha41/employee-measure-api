@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace App.Controllers.Resources
 {
-    public class FriendRequestsResource
+    public class PendingUserFriends
     {
          
         public string FriendId { get; set; }
