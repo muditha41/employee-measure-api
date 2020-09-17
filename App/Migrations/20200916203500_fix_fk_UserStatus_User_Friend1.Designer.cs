@@ -4,14 +4,16 @@ using App.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace App.Migrations
 {
     [DbContext(typeof(ApplicationIdentityDbContext))]
-    partial class ApplicationIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200916203500_fix_fk_UserStatus_User_Friend1")]
+    partial class fix_fk_UserStatus_User_Friend1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -135,35 +137,6 @@ namespace App.Migrations
                     b.HasKey("StatusId");
 
                     b.ToTable("Status");
-                });
-
-            modelBuilder.Entity("App.DB.UserNotification", b =>
-                {
-                    b.Property<int>("UserNotificationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("FriendId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Notification")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserNotificationId");
-
-                    b.HasIndex("FriendId")
-                        .IsUnique()
-                        .HasFilter("[FriendId] IS NOT NULL");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
-
-                    b.ToTable("UserNotification");
                 });
 
             modelBuilder.Entity("App.DB.UserStatus", b =>
@@ -344,19 +317,6 @@ namespace App.Migrations
                         .HasForeignKey("App.Authentication.UserFriends", "UserStatusId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("App.DB.UserNotification", b =>
-                {
-                    b.HasOne("App.Authentication.ApplicationUser", "Friend")
-                        .WithOne("FriendNotification")
-                        .HasForeignKey("App.DB.UserNotification", "FriendId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("App.Authentication.ApplicationUser", "User")
-                        .WithOne("UserNotification")
-                        .HasForeignKey("App.DB.UserNotification", "UserId")
-                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("App.DB.UserStatus", b =>

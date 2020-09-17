@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.DB;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,9 +22,13 @@ namespace App.Authentication
         public virtual ApplicationUser Friend { get; set; }
 
         public Boolean InviteStatus { get; set; }
-         
-       
-         
-       
+        public int UserStatusId { get; set; }
+        public virtual UserStatus UserSatus { get; set; }
+
+        public UserFriends()
+        {
+             UserSatus = new UserStatus();
+        }
+
     }
 }

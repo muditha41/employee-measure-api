@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.DB;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,9 +21,9 @@ namespace App.Controllers.Resources
         public string FriendId { get; set; }
         public UserResource Friend { get; set; }
         public string InviteStatus { get; set; }
-        
-     
-      
+ 
+        public UserStatus UserSatus { get; set; }
+
 
     }
 }
