@@ -22,7 +22,7 @@ namespace App.Controllers.Resources
         public UserResource Friend { get; set; }
         public string InviteStatus { get; set; }
  
-        public UserStatus UserSatus { get; set; }
+        public UserStatusResource UserStatus { get; set; }
 
 
     }

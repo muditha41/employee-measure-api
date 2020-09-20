@@ -23,11 +23,11 @@ namespace App.Authentication
 
         public Boolean InviteStatus { get; set; }
         public int UserStatusId { get; set; }
-        public virtual UserStatus UserSatus { get; set; }
+        public virtual UserStatus UserStatus { get; set; }
 
         public UserFriends()
         {
-             UserSatus = new UserStatus();
+            UserStatus = new UserStatus();
         }
 
     }

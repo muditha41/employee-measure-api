@@ -36,7 +36,7 @@ namespace App.Authentication
             .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<UserFriends>()
-       .HasOne(i => i.UserSatus)
+       .HasOne(i => i.UserStatus)
        .WithOne(x => x.UserFriend)
         .HasForeignKey<UserFriends>(p => p.UserStatusId)
        .OnDelete(DeleteBehavior.NoAction);

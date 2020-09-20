@@ -17,6 +17,7 @@ namespace App.Authentication
         public virtual UserFriends Friend { get; set; }
         [JsonIgnore]
         public virtual UserNotification UserNotification { get; set; }
+        [JsonIgnore]
         public virtual UserNotification FriendNotification { get; set; }
         
     }

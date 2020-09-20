@@ -48,6 +48,8 @@
     <Compile Remove="Migrations\20200916201029_Add_fk_UserStatus_User_Friend.Designer.cs" />
     <Compile Remove="Migrations\20200916201636_fix_fk_UserStatus_User_Friend1.cs" />
     <Compile Remove="Migrations\20200916201636_fix_fk_UserStatus_User_Friend1.Designer.cs" />
+    <Compile Remove="Migrations\20200920144316_UserSatus_to_UserStatus.cs" />
+    <Compile Remove="Migrations\20200920144316_UserSatus_to_UserStatus.Designer.cs" />
     <Compile Remove="Migrations\ApplicationDb\20200913185907_add_model_to_UserFriends.cs" />
     <Compile Remove="Migrations\ApplicationDb\20200913185907_add_model_to_UserFriends.Designer.cs" />
     <Compile Remove="Migrations\ApplicationDb\20200913191205_add_model_to_UserFriends.cs" />

@@ -39,7 +39,13 @@ namespace App.Controllers
             var userExists = await _userManager.FindByIdAsync(userId);
             if (userExists != null)
             {
-                var userFriends = await _context.UserFriends.Include(s => s.User).Include(r => r.Friend).Where(x => x.UserId == userId && x.InviteStatus == true).ToListAsync();
+                var userFriends = await _context.UserFriends
+                    .Include(s => s.User)
+                    .Include(y=>y.UserStatus).ThenInclude(z=>z.FriendStatus)
+                    .Include(y => y.UserStatus).ThenInclude(z => z.Status)
+                    .Include(r => r.Friend)
+                    .Where(x => x.UserId == userId && x.InviteStatus == true).ToListAsync();
+
                 var userFriendsResource = _mapper.Map<List<UserFriendResource>>(userFriends);
                 if (userFriendsResource.Count > 0)
                 {

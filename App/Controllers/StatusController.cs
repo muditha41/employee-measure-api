@@ -32,28 +32,36 @@ namespace App.Controllers
 
         [HttpPut]
         [Route("statusupdate")]
-        public async Task<IActionResult> PostStatus([FromBody]  UserStatusResource userStatusRecource)
+        public async Task<IActionResult> PostStatus([FromBody]  UserStatusUpdateResource userStatusUpdateRecource)
         {
-            var userStatusExists = await _context.UserStatus.Where(x => x.UserStatusId == userStatusRecource.UserStatusId).SingleOrDefaultAsync();
+            var userStatusExists = await _context.UserStatus.Where(x => x.UserStatusId == userStatusUpdateRecource.UserStatusId).SingleOrDefaultAsync();
             if (userStatusExists != null)
             {
              
                 //getting userFrien from friend-end
-                var userFrindRevert = await _context.UserFriends.Include(s => s.UserSatus).Where(
-                     x=>x.UserId == userStatusRecource.FriendId 
-                     && x.FriendId== userStatusRecource.UserId 
+                var userFrindRevert = await _context.UserFriends.Include(s => s.UserStatus).Where(
+                     x=>x.UserId == userStatusUpdateRecource.FriendId 
+                     && x.FriendId== userStatusUpdateRecource.UserId 
                      && x.InviteStatus==true)
                        .SingleOrDefaultAsync();
                 if (userFrindRevert != null)
                 {
                     //updating user status
                     var dateTimeNow = DateTime.Now;
-                    userStatusExists.StatusId = userStatusRecource.StatusId;
+                    userStatusExists.StatusId = userStatusUpdateRecource.StatusId;
                     userStatusExists.StatusTimeStamp = dateTimeNow;
 
                     //updating user status on frind-end
-                    userFrindRevert.UserSatus.FriendStatusId = userStatusRecource.StatusId;
-                    userFrindRevert.UserSatus.FriendStatusTimeStamp = dateTimeNow;
+                    userFrindRevert.UserStatus.FriendStatusId = userStatusUpdateRecource.StatusId;
+                    userFrindRevert.UserStatus.FriendStatusTimeStamp = dateTimeNow;
+
+                     if(userFrindRevert.UserStatus.StatusState =="Checked")
+                            userFrindRevert.UserStatus.StatusState = "Replied";
+                      else
+                        {
+                            userFrindRevert.UserStatus.StatusState = "New Status";
+                        }
+                    
                 }
 
                     if (await _context.SaveChangesAsync() > 0)
@@ -72,6 +80,45 @@ namespace App.Controllers
             }
 
           
+        }
+
+        [HttpPut]
+        [Route("statuschecked")]
+        public async Task<IActionResult> StatusChecked([FromBody] UserStatusUpdateResource userStatusUpdateRecource)
+        {
+            var userStatusExists = await _context.UserStatus.Where(x => x.UserStatusId == userStatusUpdateRecource.UserStatusId).SingleOrDefaultAsync();
+            if (userStatusExists != null)
+            {
+
+                //getting userFrien from friend-end
+                var userFrindRevert = await _context.UserFriends.Include(s => s.UserStatus).Where(
+                     x => x.UserId == userStatusUpdateRecource.FriendId
+                     && x.FriendId == userStatusUpdateRecource.UserId
+                     && x.InviteStatus == true)
+                       .SingleOrDefaultAsync();
+                if (userFrindRevert != null)
+                {
+                   if (userFrindRevert.UserStatus.StatusState == "New Status")
+                        userFrindRevert.UserStatus.StatusState = "Checked";
+                   
+
+                }
+
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    return Ok(new Response { Status = "Success", Message = "Status Updated!" });
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Status Update Failed" });
+                }
+
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status404NotFound, new Response { Status = "Error", Message = "Not Found" });
+            }
+
         }
     }
 }

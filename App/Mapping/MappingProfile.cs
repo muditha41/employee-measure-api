@@ -1,5 +1,6 @@
 ﻿using App.Authentication;
 using App.Controllers.Resources;
+using App.DB;
 using AutoMapper;
 using System;
 using System.Collections.Generic;
@@ -27,8 +28,9 @@ namespace App.Mapping
             CreateMap<UserFriendResource, PendingUserFriends>()
                .ForMember(s => s.Friend, opt => opt.MapFrom(c => c.User))
                .ForMember(s => s.FriendId, opt => opt.MapFrom(c => c.UserId));
-              
-               
+
+            CreateMap<UserStatus, UserStatusResource>();
+            CreateMap<UserStatusResource, UserStatus>();
 
 
         }
