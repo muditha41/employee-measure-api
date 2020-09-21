@@ -54,13 +54,14 @@ namespace App.Controllers
                     //updating user status on frind-end
                     userFrindRevert.UserStatus.FriendStatusId = userStatusUpdateRecource.StatusId;
                     userFrindRevert.UserStatus.FriendStatusTimeStamp = dateTimeNow;
+                    userFrindRevert.UserStatus.StatusState = "New Status";
 
-                     if(userFrindRevert.UserStatus.StatusState =="Checked")
-                            userFrindRevert.UserStatus.StatusState = "Replied";
-                      else
-                        {
-                            userFrindRevert.UserStatus.StatusState = "New Status";
-                        }
+                    if (userStatusExists.StatusState =="Checked")
+                    {
+                        userStatusExists.StatusState = "Replied";
+                    }
+                        
+                 
                     
                 }
 
@@ -90,19 +91,11 @@ namespace App.Controllers
             if (userStatusExists != null)
             {
 
-                //getting userFrien from friend-end
-                var userFrindRevert = await _context.UserFriends.Include(s => s.UserStatus).Where(
-                     x => x.UserId == userStatusUpdateRecource.FriendId
-                     && x.FriendId == userStatusUpdateRecource.UserId
-                     && x.InviteStatus == true)
-                       .SingleOrDefaultAsync();
-                if (userFrindRevert != null)
-                {
-                   if (userFrindRevert.UserStatus.StatusState == "New Status")
-                        userFrindRevert.UserStatus.StatusState = "Checked";
+              if (userStatusExists.StatusState == "New Status")
+                    userStatusExists.StatusState = "Checked";
                    
 
-                }
+              
 
                 if (await _context.SaveChangesAsync() > 0)
                 {
