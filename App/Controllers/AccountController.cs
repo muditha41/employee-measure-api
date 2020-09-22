@@ -34,20 +34,32 @@ namespace App.Controllers
         }
         [HttpPut]
         [Route("updatedetails")]
-        public async Task<IActionResult> UpdateDetails([FromBody] UserResource userUpdateRecource)
+        public async Task<IActionResult> UpdateDetails([FromBody] UserUpdateResource userUpdateRecource)
         {
             var userExists= _context.Users.Where(i => i.Id == userUpdateRecource.Id).SingleOrDefault();
-            if (userExists != null)
+            if (userExists != null && userUpdateRecource.Column<6)
             {
-            
-                userExists.UserName = userUpdateRecource.UserName;
-                userExists.FullName = userUpdateRecource.FullName;
-                userExists.Email = userUpdateRecource.Email;
-                userExists.Description = userUpdateRecource.Description;
-                userExists.Location = userUpdateRecource.Location;
-                userExists.WorkPlace = userUpdateRecource.WorkPlace;
-                userExists.RelationshipStatus = userUpdateRecource.RelationshipStatus;
+
+                switch (userUpdateRecource.Column)
+                {
+                    case 1:
+                        userExists.Description = userUpdateRecource.Value;
+                        break;
+                    case 2:
+                        userExists.FullName = userUpdateRecource.Value;
+                        break;
+                    case 3:
+                        userExists.Location = userUpdateRecource.Value;
+                        break;
+                    case 4:
+                        userExists.WorkPlace = userUpdateRecource.Value;
+                        break;
+                    case 5:
+                        userExists.RelationshipStatus = userUpdateRecource.Value;
+                        break;
+                }
                
+                 
                 if (await _context.SaveChangesAsync() > 0)
                 {
                     return Ok(new Response { Status = "Success", Message = "User Details Successfully Updated!" });
@@ -55,7 +67,7 @@ namespace App.Controllers
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User doesn't have friends!" });
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Failed to Update!" });
                 }
             }
             else
@@ -65,8 +77,32 @@ namespace App.Controllers
             
         }
 
+        [HttpPut]
+        [Route("updateimage")]
+        public async Task<IActionResult> UpdateImage([FromBody] UpdateUserImageResource updateUserImageResource)
+        {
+            var userExists = _context.Users.Where(i => i.Id == updateUserImageResource.Id).SingleOrDefault();
+            if (userExists != null)
+            {
+                userExists.Image = updateUserImageResource.Value;
 
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    return Ok(new Response { Status = "Success", Message = "User Image Successfully Updated!" });
 
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Image Update Failed !" });
+                }
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User doesn't exists!" });
+            }
 
         }
+
+
+    }
 }

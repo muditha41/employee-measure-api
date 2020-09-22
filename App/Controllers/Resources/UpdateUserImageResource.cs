@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace App.Controllers.Resources
 {
-    public class UserUpdateResource
+    public class UpdateUserImageResource
     {
         public string Id { get; set; }
-        public int Column { get; set; }
-        public string Value { get; set; }
-       
+        public byte[] Value { get; set; }
     }
 }
