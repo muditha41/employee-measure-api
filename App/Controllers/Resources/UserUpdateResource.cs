@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace App.Controllers.Resources
 {
-    public class UserResource
+    public class UserUpdateResource
     {
-        
         public string Id { get; set; }
         public string UserName { get; set; }
         public string FullName { get; set; }
@@ -17,6 +15,5 @@ namespace App.Controllers.Resources
         public string Location { get; set; }
         public string WorkPlace { get; set; }
         public string RelationshipStatus { get; set; }
-        public byte[] Image { get; set; }
     }
 }

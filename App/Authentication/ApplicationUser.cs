@@ -11,6 +11,14 @@ namespace App.Authentication
 {
     public class ApplicationUser : IdentityUser 
     {
+
+        public string FullName { get; set; }
+        public string Description { get; set; }
+        public string Location { get; set; }
+        public string WorkPlace { get; set; }
+        public string RelationshipStatus { get; set; }
+        public byte[] Image { get; set; }
+
         [JsonIgnore]
         public virtual UserFriends UserFriend { get; set; }
         [JsonIgnore]

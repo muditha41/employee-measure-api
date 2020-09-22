@@ -32,11 +32,41 @@ namespace App.Controllers
             _context = context;
             _mapper = mapper;
         }
+        [HttpPut]
+        [Route("updatedetails")]
+        public async Task<IActionResult> UpdateDetails([FromBody] UserResource userUpdateRecource)
+        {
+            var userExists= _context.Users.Where(i => i.Id == userUpdateRecource.Id).SingleOrDefault();
+            if (userExists != null)
+            {
+            
+                userExists.UserName = userUpdateRecource.UserName;
+                userExists.FullName = userUpdateRecource.FullName;
+                userExists.Email = userUpdateRecource.Email;
+                userExists.Description = userUpdateRecource.Description;
+                userExists.Location = userUpdateRecource.Location;
+                userExists.WorkPlace = userUpdateRecource.WorkPlace;
+                userExists.RelationshipStatus = userUpdateRecource.RelationshipStatus;
+               
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    return Ok(new Response { Status = "Success", Message = "User Details Successfully Updated!" });
 
-        
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User doesn't have friends!" });
+                }
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User doesn't exists!" });
+            }
+            
+        }
 
-       
-        
+
+
 
         }
 }
