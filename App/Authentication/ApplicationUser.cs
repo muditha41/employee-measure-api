@@ -19,10 +19,10 @@ namespace App.Authentication
         public string RelationshipStatus { get; set; }
         public byte[] Image { get; set; }
 
-        [JsonIgnore]
-        public virtual UserFriends UserFriend { get; set; }
-        [JsonIgnore]
-        public virtual UserFriends Friend { get; set; }
+        [InverseProperty("User")]
+        public UserFriends User { get; set; }
+        [InverseProperty("User")]
+        public UserFriends Friend { get; set; }
         [JsonIgnore]
         public virtual UserNotification UserNotification { get; set; }
         [JsonIgnore]
