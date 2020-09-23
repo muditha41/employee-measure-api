@@ -35,6 +35,10 @@ namespace App.Mapping
             CreateMap<UserStatus, UserStatusResource>();
              CreateMap<UserStatusResource, UserStatus>();
 
+            CreateMap<NotificationResource, UserNotification>();
+            CreateMap<UserNotification, NotificationResource>();
+
+
 
         }
     }

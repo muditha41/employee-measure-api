@@ -103,6 +103,47 @@ namespace App.Controllers
 
         }
 
+        [HttpGet]
+        [Route("{userId}/notification")]
+        public async Task<IActionResult> GetNotifications(string userId)
+        {
+            //  var contentType = this.Request;
+
+            var userNotification = await _context.UserNotification.Include(x=>x.User).Include(y=>y.Friend).Where(i=>i.UserId==userId).ToArrayAsync();
+            var notificationResource = _mapper.Map<List<NotificationResource>>(userNotification);
+            if (notificationResource.Count>0)
+            {
+                return Ok(notificationResource);
+
+              }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "You don't have notifications" });
+            }
+            //return Unauthorized();
+        }
+        [HttpPut]
+        [Route("{userId}/notificationchecked")]
+        public async Task<IActionResult> ChackedNotifications(string userId)
+        {
+            //  var contentType = this.Request;
+
+            var userNotifications = await _context.UserNotification.Where(i => i.UserId == userId).ToArrayAsync();
+            foreach (var userNotification in userNotifications)
+            {
+                userNotification.State = false;
+            }
+          
+            if (await _context.SaveChangesAsync() > 0)
+            {
+                return Ok(new Response { Status = "Success", Message = "Notification Checked!" });
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "Notification Checked Failed" });
+            }
+        }
+
 
     }
 }
