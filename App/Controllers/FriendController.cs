@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using App.Authentication;
 using App.Controllers.Resources;
 using App.DB;
+using App.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -22,12 +23,13 @@ namespace App.Controllers
         private readonly ApplicationIdentityDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
-         
+       
         public FriendController(ApplicationIdentityDbContext context, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
             _userManager = userManager;
             _context = context;
             _mapper = mapper;
+        
         }
 
         [HttpGet]
@@ -49,6 +51,7 @@ namespace App.Controllers
                 var userFriendsResource = _mapper.Map<List<UserFriendResource>>(userFriends);
                 if (userFriendsResource.Count > 0)
                 {
+                    userFriendsResource.ForEach(x => x.UserStatus.GenarateTime());
                     return Ok(userFriendsResource);
 
                 }

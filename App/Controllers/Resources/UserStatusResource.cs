@@ -16,7 +16,20 @@ namespace App.Controllers.Resources
         public int FriendStatusId { get; set; }
         public DateTime FriendStatusTimeStamp { get; set; }
         public Status FriendStatus { get; set; }
+        public string Time { get; set; }
+       
 
-        
+        public void GenarateTime()
+        {
+            var hours = (  DateTime.Now - this.FriendStatusTimeStamp).TotalHours;
+            if (hours > 24)
+            {
+               this.Time=FriendStatusTimeStamp.ToString("MM/dd/yy");
+            }
+            else
+            {
+                this.Time=FriendStatusTimeStamp.ToString("h:mm tt");
+            }
+        }
     }
 }

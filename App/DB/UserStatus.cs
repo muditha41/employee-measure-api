@@ -18,7 +18,7 @@ namespace App.DB
         public Status Status { get; set; }
         public int? FriendStatusId { get; set; }
         public DateTime FriendStatusTimeStamp { get; set; }
-        public Status FriendStatus   { get; set; }
+        public Status FriendStatus { get; set; }
         [JsonIgnore]
         public UserFriends UserFriend { get; set; }
         public UserStatus()
@@ -26,5 +26,6 @@ namespace App.DB
             StatusId = 1;
             FriendStatusId = 1;
         }
+        
     }
 }

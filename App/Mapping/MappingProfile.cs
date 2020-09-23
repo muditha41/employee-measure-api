@@ -20,6 +20,9 @@ namespace App.Mapping
 
             CreateMap<UserFriendResource, UserFriends>();
             CreateMap<UserFriends, UserFriendResource>();
+            
+
+
 
             CreateMap<Task<UserFriendResource>, Task<UserFriends>>();
             CreateMap<Task<UserFriends>, Task<UserFriendResource>>();
@@ -30,7 +33,7 @@ namespace App.Mapping
                .ForMember(s => s.FriendId, opt => opt.MapFrom(c => c.UserId));
 
             CreateMap<UserStatus, UserStatusResource>();
-            CreateMap<UserStatusResource, UserStatus>();
+             CreateMap<UserStatusResource, UserStatus>();
 
 
         }
