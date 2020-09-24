@@ -109,7 +109,7 @@ namespace App.Controllers
         {
             //  var contentType = this.Request;
 
-            var userNotification = await _context.UserNotification.Include(x=>x.User).Include(y=>y.Friend).Where(i=>i.UserId==userId).ToArrayAsync();
+            var userNotification = await _context.UserNotification.AsNoTracking().Include(x=>x.User).Include(y=>y.Friend).Where(i=>i.UserId==userId).ToArrayAsync();
             var notificationResource = _mapper.Map<List<NotificationResource>>(userNotification);
             if (notificationResource.Count>0)
             {
