@@ -8,6 +8,6 @@ namespace App.Controllers.Resources
     public class UpdateUserImageResource
     {
         public string Id { get; set; }
-        public byte[] Value { get; set; }
+        public string Value { get; set; }
     }
 }

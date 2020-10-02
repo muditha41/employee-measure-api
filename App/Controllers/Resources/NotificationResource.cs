@@ -12,9 +12,22 @@ namespace App.Controllers.Resources
 
         public UserResource User { get; set; }
 
-        public string FriendId { get; set; }
+        public DateTime TimeStamp { get; set; }
+        public string Time { get; set; }
         public bool State { get; set; }
         public UserResource Friend { get; set; }
         public string Notification { get; set; }
+        public void GenarateTime()
+        {
+            var hours = (DateTime.Now - this.TimeStamp).TotalHours;
+            if (hours > 24)
+            {
+                this.Time = TimeStamp.ToString("MM/dd/yy");
+            }
+            else
+            {
+                this.Time = TimeStamp.ToString("h:mm tt");
+            }
+        }
     }
 }

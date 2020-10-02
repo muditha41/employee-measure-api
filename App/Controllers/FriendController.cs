@@ -103,6 +103,7 @@ namespace App.Controllers
                         UserId = friend.Id,
                         FriendId = invitation.UserId,
                         Notification = username + " sent you a friend request",
+                        TimeStamp = DateTime.Now,
                         State = true
                     };
                      
@@ -168,6 +169,7 @@ namespace App.Controllers
                             UserId = user.Id,
                             FriendId = invitation.UserId,
                             Notification = friendname + " accepted your friend request",
+                            TimeStamp = DateTime.Now,
                             State=true
                         };
 

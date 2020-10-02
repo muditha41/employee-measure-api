@@ -16,6 +16,7 @@ namespace App.DB
         public ApplicationUser User { get; set; }
 
         public string FriendId { get; set; }
+        public DateTime TimeStamp { get; set; }
         public bool State { get; set; }
         public ApplicationUser Friend { get; set; }
         public string Notification { get; set; }

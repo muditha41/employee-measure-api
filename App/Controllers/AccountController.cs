@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
@@ -32,6 +33,27 @@ namespace App.Controllers
             _context = context;
             _mapper = mapper;
         }
+
+        [HttpGet]
+        [Route("{userId}/profile")]
+        public async Task<IActionResult> GetAccountDetails(string userId)
+        {
+            //  var contentType = this.Request;
+
+            var user = await _userManager.FindByIdAsync(userId);
+            var userResource = _mapper.Map<UserResource>(user);
+            if (userResource != null)
+            {
+                return Ok(userResource);
+
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User Doesn't Exist" });
+            }
+            //return Unauthorized();
+        }
+
         [HttpPut]
         [Route("updatedetails")]
         public async Task<IActionResult> UpdateDetails([FromBody] UserUpdateResource userUpdateRecource)
@@ -79,12 +101,15 @@ namespace App.Controllers
 
         [HttpPut]
         [Route("updateimage")]
-        public async Task<IActionResult> UpdateImage([FromBody] UpdateUserImageResource updateUserImageResource)
+        public async Task<IActionResult> UpdateImage(UpdateUserImageResource updateUserImageResource)
         {
+           
+            
+
             var userExists = _context.Users.Where(i => i.Id == updateUserImageResource.Id).SingleOrDefault();
             if (userExists != null)
             {
-                userExists.Image = updateUserImageResource.Value;
+               userExists.Image = updateUserImageResource.Value;
 
                 if (await _context.SaveChangesAsync() > 0)
                 {
@@ -113,12 +138,15 @@ namespace App.Controllers
             var notificationResource = _mapper.Map<List<NotificationResource>>(userNotification);
             if (notificationResource.Count>0)
             {
+                notificationResource.ForEach(x =>
+                {
+                    x.GenarateTime();
+                });
                 return Ok(notificationResource);
-
               }
             else
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "You don't have notifications" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "No new notifications. Invite friends to my list." });
             }
             //return Unauthorized();
         }

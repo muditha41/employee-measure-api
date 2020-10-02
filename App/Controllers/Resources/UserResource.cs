@@ -17,6 +17,6 @@ namespace App.Controllers.Resources
         public string Location { get; set; }
         public string WorkPlace { get; set; }
         public string RelationshipStatus { get; set; }
-        public byte[] Image { get; set; }
+        public string Image { get; set; }
     }
 }
