@@ -56,8 +56,8 @@ namespace App.Controllers
                     {
                        x.UserStatus.GenarateTime();
                       });
-                   
-                    return Ok(userFriendsResource);
+                    var sortedList = userFriendsResource.OrderBy(x=>x.UserStatus.FriendStatusTimeStamp).ToList();
+                    return Ok(sortedList);
 
                 }
                 else

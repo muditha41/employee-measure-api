@@ -142,7 +142,8 @@ namespace App.Controllers
                 {
                     x.GenarateTime();
                 });
-                return Ok(notificationResource);
+                var sortedList = notificationResource.OrderBy(x => x.TimeStamp).ToList();
+                return Ok(sortedList);
               }
             else
             {
