@@ -78,7 +78,7 @@ namespace App.Controllers
         {
             var friend = await _userManager.FindByEmailAsync(invitation.Email);
 
-            if (friend != null)
+            if (friend != null && friend.Id != invitation.UserId)
             {
                 var friendExist = await _context.UserFriends.Where(x => x.UserId == invitation.UserId && x.FriendId == friend.Id).ToListAsync();
                 if (friendExist.Count == 0)
@@ -91,7 +91,7 @@ namespace App.Controllers
                         UserId = invitation.UserId,
                         FriendId = friend.Id,
                         InviteStatus = false,
-
+                        
 
                     };
                     var result = await _context.UserFriends.AddAsync(userFriend);

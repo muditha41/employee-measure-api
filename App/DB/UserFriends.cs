@@ -28,6 +28,8 @@ namespace App.Authentication
         public UserFriends()
         {
             UserStatus = new UserStatus();
+            UserStatus.FriendStatusTimeStamp = DateTime.Now;
+            UserStatus.StatusTimeStamp = DateTime.Now;
         }
 
     }
